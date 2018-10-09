@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/needsharebutton/needsharebutton.css">
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="[TOC] 三、量化交易策略实战技巧1. 股票池择时策略基础1.1 交易系统中与盈利相关的要素 策略的胜率（系统的期望收益 ） 每次交易的盈亏比（系统的期望收益 ） 头寸规模的确定 资金量的大小 交易机会的多少 交易成本">
+<meta name="keywords" content="Quant">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从入门到放弃-量化投资学习笔记（二）">
+<meta property="og:url" content="http://yoursite.com/Quant/quant2">
+<meta property="og:site_name" content="Peter&#39;s Blog">
+<meta property="og:description" content="[TOC] 三、量化交易策略实战技巧1. 股票池择时策略基础1.1 交易系统中与盈利相关的要素 策略的胜率（系统的期望收益 ） 每次交易的盈亏比（系统的期望收益 ） 头寸规模的确定 资金量的大小 交易机会的多少 交易成本">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-04T14:47:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从入门到放弃-量化投资学习笔记（二）">
+<meta name="twitter:description" content="[TOC] 三、量化交易策略实战技巧1. 股票池择时策略基础1.1 交易系统中与盈利相关的要素 策略的胜率（系统的期望收益 ） 每次交易的盈亏比（系统的期望收益 ） 头寸规模的确定 资金量的大小 交易机会的多少 交易成本">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/Quant/quant2"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>从入门到放弃-量化投资学习笔记（二） | Peter's Blog</title>
+  
+
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2bd125929612c06785c3bfad708ae603";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Peter's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/Quant/quant2">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="甄彦俊">
+      <meta itemprop="description" content="Enjoy Coding,Enjoy Life.">
+      <meta itemprop="image" content="/images/head2.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Peter's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从入门到放弃-量化投资学习笔记（二）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-05 22:23:04" itemprop="dateCreated datePublished" datetime="2018-08-05T22:23:04+08:00">2018-08-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-08-04 22:47:04" itemprop="dateModified" datetime="2018-08-04T22:47:04+08:00">2018-08-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Quant/" itemprop="url" rel="index"><span itemprop="name">Quant</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Quant/quant2#comments" itemprop="discussionUrl">
+                
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="Quant/quant2" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/Quant/quant2" class="leancloud_visitors" data-flag-title="从入门到放弃-量化投资学习笔记（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<h2 id="三、量化交易策略实战技巧"><a href="#三、量化交易策略实战技巧" class="headerlink" title="三、量化交易策略实战技巧"></a>三、量化交易策略实战技巧</h2><h3 id="1-股票池择时策略基础"><a href="#1-股票池择时策略基础" class="headerlink" title="1. 股票池择时策略基础"></a>1. 股票池择时策略基础</h3><h4 id="1-1-交易系统中与盈利相关的要素"><a href="#1-1-交易系统中与盈利相关的要素" class="headerlink" title="1.1 交易系统中与盈利相关的要素"></a>1.1 交易系统中与盈利相关的要素</h4><ul>
+<li>策略的胜率（系统的期望收益 ）</li>
+<li>每次交易的盈亏比（系统的期望收益 ）</li>
+<li>头寸规模的确定</li>
+<li>资金量的大小</li>
+<li>交易机会的多少</li>
+<li>交易成本</li>
+</ul>
+<a id="more"></a>
+<h4 id="1-2-Alpha-的非常规定义"><a href="#1-2-Alpha-的非常规定义" class="headerlink" title="1.2 Alpha 的非常规定义"></a>1.2 Alpha 的非常规定义</h4><p>Alpha 的非常规定义：在交易中关于持有头寸选择和买卖时机把握的技巧，即股票池+择时。</p>
+<h4 id="1-3-股票池"><a href="#1-3-股票池" class="headerlink" title="1.3 股票池"></a>1.3 股票池</h4><p>构建股票池：多因子分析</p>
+<p>典型的对冲策略：股票alpha策略</p>
+<p>$$<br>(Alpha+Beta) -Beta = Alpha<br>$$</p>
+<ul>
+<li>alpha+beta：做多股票组合</li>
+<li>-beta：做空股指期货</li>
+<li>alpha：组合超额收益</li>
+</ul>
+<p>Alpha策略不需要依靠对证券组合或大盘的趋势判断，而是追求对冲系统风险后的绝对收益，即做到无论大盘涨跌都能赚钱。</p>
+<p>常见因子：PE、PB、ROE、ROA</p>
+<h4 id="1-4-择时"><a href="#1-4-择时" class="headerlink" title="1.4 择时"></a>1.4 择时</h4><p>随机入市策略：</p>
+<ul>
+<li>每次凭掷硬币随机进入市场，或者做多头，或者做空头 </li>
+<li>一旦得到一个退出市场的信号，就基于随机信号再次入市 </li>
+<li>用EMA(ATR,10)指标来确定市场的波动性</li>
+<li>用这一波动性得数的3倍作为初始止损</li>
+<li>跟踪止损，只按照对盈利有利的方式移动（多头向上，空头向下） </li>
+</ul>
+<p>结论：入市时间不是最重要的</p>
+<p>其他因素策略：</p>
+<ul>
+<li>头寸：根据波动率分配头寸 </li>
+<li>止损：波动率倍数设置初始止损</li>
+<li>退出：回撤止盈</li>
+<li>风控：策略内外的风控</li>
+</ul>
+<h3 id="2-主流投资流派的量化策略"><a href="#2-主流投资流派的量化策略" class="headerlink" title="2. 主流投资流派的量化策略"></a>2. 主流投资流派的量化策略</h3><h4 id="2-1-五大门派"><a href="#2-1-五大门派" class="headerlink" title="2.1 五大门派"></a>2.1 五大门派</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">投资模式</th>
+<th style="text-align:center">代表人物</th>
+<th style="text-align:center">价格-价值关系</th>
+<th style="text-align:center">时间尺度</th>
+<th style="text-align:center">方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">价值投资</td>
+<td style="text-align:center">格雷厄姆/巴菲特</td>
+<td style="text-align:center">不定，而且可以确定</td>
+<td style="text-align:center">从月到年</td>
+<td style="text-align:center">关注于价值，寻找那些定价低 于内在价值的投资对象</td>
+</tr>
+<tr>
+<td style="text-align:center">成长投资</td>
+<td style="text-align:center">费雪/林奇</td>
+<td style="text-align:center">不定，而且可以确定</td>
+<td style="text-align:center">从月到年</td>
+<td style="text-align:center">关注于增长，寻找价值增长速度快于价格增长速度的投资对象</td>
+</tr>
+<tr>
+<td style="text-align:center">指数投资</td>
+<td style="text-align:center">伯格</td>
+<td style="text-align:center">不能确定</td>
+<td style="text-align:center">从月到年</td>
+<td style="text-align:center">忽略价格-价值关系，而购买整个市场的一部分</td>
+</tr>
+<tr>
+<td style="text-align:center">技术投资</td>
+<td style="text-align:center">奥尼尔</td>
+<td style="text-align:center">可能有关系，但不相关</td>
+<td style="text-align:center">秒、分钟到数周</td>
+<td style="text-align:center">关注于价格趋势</td>
+</tr>
+<tr>
+<td style="text-align:center">组合投资</td>
+<td style="text-align:center">麦基尔</td>
+<td style="text-align:center">相互独立</td>
+<td style="text-align:center">数日到月、年</td>
+<td style="text-align:center">将风险偏好与价格-价值风险水平相匹配</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2-2-五大门派的量化要素"><a href="#2-2-五大门派的量化要素" class="headerlink" title="2.2 五大门派的量化要素"></a>2.2 五大门派的量化要素</h4><ul>
+<li>价值投资：关注于对估值因素的量化，更多从基本面分析的角度，考察一个公司的商业逻辑所对应的数据指标，并建立相应的财务分析、行业分析量化模型，最终形成对公司价值的估算</li>
+<li>成长投资：关注于对公司成长能力的量化，与价值投资类似，只不过量化模型偏重于价值的增长速度而不仅仅是价值本身</li>
+<li>指数投资：关注于对某一基准指数的跟踪模型，即试图尽量准确地跟踪基准指数的变化；一些指数型投资策略，还侧重于指数增强，即通过对基准进行择时或者对成份股进行筛选来实现相对于指数的一定超额回报</li>
+<li>技术投资：关注于量、价、时、空的各种统计规律的分析和建模，也通过很多技术指标来反映对价格趋势的预测；随着大数据与人工智能技术的发展，也有很多技术投资者通过市场情绪的监测、对市场外部数据的分析来寻找价格趋势与各种数据的相关性，采用数据驱动模型作为量化交易系统的判断依据</li>
+<li>组合投资：关注于对投资组合风险水平的估算以及获得最佳的风险-收益机会集</li>
+</ul>
+<h3 id="3-多因子模型和因子检验"><a href="#3-多因子模型和因子检验" class="headerlink" title="3. 多因子模型和因子检验"></a>3. 多因子模型和因子检验</h3><h4 id="3-1-因子投资的发展"><a href="#3-1-因子投资的发展" class="headerlink" title="3.1 因子投资的发展"></a>3.1 因子投资的发展</h4><ul>
+<li>单因子：市场对风险和回报的认识是单一的</li>
+<li>多因子：市场对风险和回报有多维度的认识</li>
+<li>市场异常回报：无法被其他因子所解释</li>
+<li>因子投资：为投资人提供因子回报和敞口；有单因子基金，也有多因子组合</li>
+</ul>
+<h4 id="3-2-美股因子检验–定义"><a href="#3-2-美股因子检验–定义" class="headerlink" title="3.2 美股因子检验–定义"></a>3.2 美股因子检验–定义</h4><ul>
+<li>大市值：市场上市值最大的前10%的股票</li>
+<li>小市值：市场上市值最小的前10%的股票</li>
+<li>高价值：市场上账面市值比（Book-to-MarketRatio）最高的前10%的股票</li>
+<li>高动量：市场上过去12个月总回报最高的前10%的股票</li>
+<li>低波动：市场上相对于大盘的beta最低的前10%的股票</li>
+<li>高质量：市场上利润率最高的前10%的股票</li>
+</ul>
+<h4 id="3-3-美股因子检验–回报"><a href="#3-3-美股因子检验–回报" class="headerlink" title="3.3 美股因子检验–回报"></a>3.3 美股因子检验–回报</h4><table>
+<thead>
+<tr>
+<th>1970-2017</th>
+<th>年化回报</th>
+<th>夏普比率</th>
+<th>最大回撤</th>
+<th>总回报</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大市值</td>
+<td>10.15%</td>
+<td>0.39</td>
+<td>-52.81%</td>
+<td>9464.59%</td>
+</tr>
+<tr>
+<td>小市值</td>
+<td>13.11%</td>
+<td>0.45</td>
+<td>-63.10%</td>
+<td>33227.16%</td>
+</tr>
+<tr>
+<td>高价值</td>
+<td>20.06%</td>
+<td>0.72</td>
+<td>-70.75%</td>
+<td>554107.81%</td>
+</tr>
+<tr>
+<td>高动量</td>
+<td>18.71%</td>
+<td>0.66</td>
+<td>-59.38%</td>
+<td>325281.13%</td>
+</tr>
+<tr>
+<td>低波动</td>
+<td>13.10%</td>
+<td>0.62</td>
+<td>-56.95%</td>
+<td>33140.59%</td>
+</tr>
+<tr>
+<td>高质量</td>
+<td>12.70%</td>
+<td>0.45</td>
+<td>-62.21%</td>
+<td>27980.31%</td>
+</tr>
+<tr>
+<td>标普500</td>
+<td>10.51%</td>
+<td>0.42</td>
+<td>-50.21%</td>
+<td>11020.50%</td>
+</tr>
+</tbody>
+</table>
+<p>每种因子都有其周期性，都不可能在短时间内跑赢大盘，选择哪个因子要与投资人的风险承受能力匹配。只有在可靠的投资框架内坚持自己的投资理念，与自己的认知缺陷抗衡，投资人才有可能在较长的投资期限上战胜大盘。</p>
+<h3 id="参考书籍"><a href="#参考书籍" class="headerlink" title="参考书籍"></a>参考书籍</h3><ul>
+<li><p>《打开量化投资的黑箱》 </p>
+<p>Inside the Black’Box:A Simple Guide to Quantitative and High-Frequency Trading </p>
+<p>里什•纳兰(Rishi K.Narang)  </p>
+</li>
+<li><p>《主动投资组合管理:创造高收益并控制风险的量化投资方法》 </p>
+<p>Active Portfolio Management: A Quantitative Approach for Providing Superior Returns and Controlling Risk (2th Edition) </p>
+<p>理查德C.格林诺德(Richard C.Grinol) , 雷诺德N.卡恩(Ronald N.Kahn) , 李腾 (译者)</p>
+</li>
+<li><p>《威科夫操盘法》</p>
+<p>Wychkoff Trading Tools and Techniques </p>
+<p>孟洪涛 （Edward Meng） </p>
+</li>
+<li><p>《证券分析》 </p>
+<p>Security Analysis: Sixth Edition </p>
+<p>本杰明•格雷厄姆 (Benjamin Graham) , 戴维•多德 (David L. Dodd)  </p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+      
+
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Quant/" rel="tag"># Quant</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+
+        
+
+        
+          
+          <div class="social_share">
+            
+            
+               <div id="needsharebutton-postbottom">
+                 <span class="btn">
+                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                 </span>
+               </div>
+            
+          </div>
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/temp/wordpress" rel="next" title="搭建个人博客网站服务说明">
+                <i class="fa fa-chevron-left"></i> 搭建个人博客网站服务说明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/head2.jpg"
+                alt="甄彦俊" />
+            
+              <p class="site-author-name" itemprop="name">甄彦俊</p>
+              <p class="site-description motion-element" itemprop="description">Enjoy Coding,Enjoy Life.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="http://peterzhen40@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/peterzhen40" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/peterzhen40" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/engineboy40" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#三、量化交易策略实战技巧"><span class="nav-number">1.</span> <span class="nav-text">三、量化交易策略实战技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-股票池择时策略基础"><span class="nav-number">1.1.</span> <span class="nav-text">1. 股票池择时策略基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-交易系统中与盈利相关的要素"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 交易系统中与盈利相关的要素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-Alpha-的非常规定义"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 Alpha 的非常规定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-股票池"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 股票池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-择时"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 择时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-主流投资流派的量化策略"><span class="nav-number">1.2.</span> <span class="nav-text">2. 主流投资流派的量化策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-五大门派"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 五大门派</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-五大门派的量化要素"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 五大门派的量化要素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-多因子模型和因子检验"><span class="nav-number">1.3.</span> <span class="nav-text">3. 多因子模型和因子检验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-因子投资的发展"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 因子投资的发展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-美股因子检验–定义"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 美股因子检验–定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-美股因子检验–回报"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 美股因子检验–回报</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考书籍"><span class="nav-number">1.4.</span> <span class="nav-text">参考书籍</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Peter Zhen</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://peterzhen40.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/Quant/quant2';
+        this.page.identifier = 'Quant/quant2';
+        this.page.title = '从入门到放弃-量化投资学习笔记（二）';
+        };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://peterzhen40.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "vqG1GQnNK4RpuOhxeOeNPL0M-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "vqG1GQnNK4RpuOhxeOeNPL0M-gzGzoHsz",
+                'X-LC-Key': "nxg6I9U2IKIi0Rr8U2utEXVg",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/needsharebutton/needsharebutton.js"></script>
+
+  <script>
+    
+      pbOptions = {};
+      
+          pbOptions.iconStyle = "box";
+      
+          pbOptions.boxForm = "horizontal";
+      
+          pbOptions.position = "bottomCenter";
+      
+          pbOptions.networks = "Weibo,Wechat,Douban,QQZone,Twitter,Facebook";
+      
+      new needShareButton('#needsharebutton-postbottom', pbOptions);
+    
+    
+  </script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>
