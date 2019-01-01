@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/Android/AndroidHttpsVerification</loc>
+    
+    <lastmod>2019-01-01T14:09:34.127Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/temp/wordpress</loc>
     
     <lastmod>2018-10-10T14:37:53.386Z</lastmod>
@@ -9,21 +16,14 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/Android/AndroidHttpsVerification</loc>
-    
-    <lastmod>2018-10-10T14:37:53.384Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/Quant/quant2</loc>
+    <loc>http://yoursite.com/Quant/quant</loc>
     
     <lastmod>2018-08-04T14:47:04.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/Quant/quant</loc>
+    <loc>http://yoursite.com/Quant/quant2</loc>
     
     <lastmod>2018-08-04T14:47:04.000Z</lastmod>
     
